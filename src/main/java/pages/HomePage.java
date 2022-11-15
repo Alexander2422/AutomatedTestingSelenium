@@ -1,0 +1,21 @@
+package pages;
+
+import org.openqa.selenium.By;
+import utils.Utilities;
+
+public class HomePage extends BasePage{
+    private By elements = By.xpath("//div[@class='header-text' and text()='Elements']");
+
+
+    public void openHomePage(){
+        Utilities.openLink(StaticLinks.homepageDemoQA);
+    }
+    public void clickOnElements(){
+        Utilities.clickElement(elements);
+    }
+
+    public static class StaticLinks{
+        public static String homepageDemoQA="https://demoqa.com/elements";
+    }
+
+}
