@@ -1,9 +1,9 @@
 package pages;
 
-import com.github.javafaker.Bool;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import utils.Utilities;
+
 
 public class ElementsPage extends BasePage {
     Faker faker = new Faker();
@@ -18,24 +18,20 @@ public class ElementsPage extends BasePage {
     private By resultRadioButton = By.xpath("//p[@class='mt-3']");
     private By webTables = By.xpath("//span[@class='text' and text()='Web Tables']");
     private By webTablesAddButton = By.xpath("//button[@id='addNewRecordButton']");
-    private By webTablesName = By.xpath("//input[@placeholder='firstName']");
+    private By webTablesName = By.xpath("//input[@id='firstName']");
     private By webTablesLastName = By.xpath("//input[@id='lastName']");
     private By webTablesUserEmail = By.xpath("//input[@id='userEmail']");
-    private By webTablesUserAge = By.xpath("//input[@id='Age']");
-    private By webTablesSalary = By.xpath("//input[@id='Salary']");
-    private By webTablesDepartment=By.xpath("//input[@id='department']");
-    private By webTablesSubmit = By.xpath("//button[@id='Submit']");
+    private By webTablesUserAge = By.xpath("//input[@id='age']");
+    private By webTablesSalary = By.xpath("//input[@id='salary']");
+    private By webTablesDepartment = By.xpath("//input[@id='department']");
+    private By webTablesSubmit = By.xpath("//button[@id='submit']");
     private By webTablesSearch = By.xpath("//input[@id='searchBox']");
     private By webTablesTable = By.xpath("//div[@class='rt-tbody']");
+    private By webTablesEditButton = By.xpath("//span[@title='Edit']");
+    private By webTablesDeleteButton = By.xpath("//span[@title='Delete']");
 
-    private static String firstName="";
+    private static String firstName = "";
 
-    public void setFirstName(String fName) {
-        this.firstName = fName;
-    }
-    public static String getFirstName() {
-        return firstName;
-    }
 
     public void clickOnCheckBox() {
         Utilities.clickElement(checkBox);
@@ -61,43 +57,67 @@ public class ElementsPage extends BasePage {
     }
 
     public Boolean resultCheckBoxText() {
+        boolean isCheckResultBoxText = false;
         if (Utilities.getTextOfElement(resultCheckBox).contains("notes\n" +
                 "workspace\n" +
                 "react\n" +
                 "angular\n" +
                 "veu")) {
-            return true;
+            isCheckResultBoxText = true;
         }
-        return false;
+        return isCheckResultBoxText;
 
 
     }
 
     public Boolean resultResultRadioButton() {
+        boolean isResultRadioButton = false;
+
         if (Utilities.getTextOfElement(resultRadioButton).contains("Yes")) {
-            return true;
+            isResultRadioButton = true;
         }
-        return false;
+        return isResultRadioButton;
     }
 
-    public void clickOnWebTables(){
+    public void clickOnWebTables() {
         clickElement(webTables);
     }
-    public void clickOnWebTablesAdd(){
+
+    public void clickOnWebTablesAdd() {
         clickElement(webTablesAddButton);
     }
+
     public void webTablesAddAllInputs() throws InterruptedException {
         waitOnElement(webTablesName);
-        firstName=faker.name().firstName()+randomNumberGenerator(50);
-        sendKeys(webTablesName,firstName);
-        sendKeys(webTablesLastName,faker.name().lastName());
-        sendKeys(webTablesUserEmail,faker.internet().emailAddress());
-        sendKeys(webTablesUserAge,"34");
-        sendKeys(webTablesSalary,"7000");
-        sendKeys(webTablesDepartment,"Software");
-        Thread.sleep(4500);
+        firstName = faker.name().firstName() + randomNumberGenerator(50);
+        sendKeys(webTablesName, firstName);
+        sendKeys(webTablesLastName, faker.name().lastName());
+        sendKeys(webTablesUserEmail, faker.internet().emailAddress());
+        sendKeys(webTablesUserAge, "34");
+        sendKeys(webTablesSalary, "7000");
+        sendKeys(webTablesDepartment, "Software");
+        clickElement(webTablesSubmit);
+    }
 
+    public boolean checkIfNewEntryIsAdded() {
+        return checkIfTextIsPresentInElement(webTablesSearch, firstName, webTablesTable);
+    }
 
+    public void webTablesEditButton() throws InterruptedException {
+        waitOnElement(webTablesEditButton);
+        clickElement(webTablesEditButton);
+        firstName += randomNumberGenerator(3);
+        sendKeys(webTablesName, firstName);
+        clickElement(webTablesSubmit);
+    }
+
+    public boolean checkIfNewEntryIsEdited() {
+        System.out.println(getTextOfElement(webTablesTable));
+        return checkIfTextIsPresentInElement(webTablesSearch, firstName, webTablesTable);
+    }
+
+    public void clickWebTablesDeleteButton() {
+        clickElement(webTablesDeleteButton);
     }
 
 }

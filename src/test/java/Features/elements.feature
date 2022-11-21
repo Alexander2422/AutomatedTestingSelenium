@@ -1,3 +1,4 @@
+
 Feature: Feature to test Elements from ToolsQA
 
 
@@ -15,7 +16,8 @@ Feature: Feature to test Elements from ToolsQA
     When I click on RadioButton button
     When I click on YES
     Then I see the message that says i selected Yes
-  @Tests
+
+
   Scenario: Testing Web Tables add , edit and delete feature
     Given I Set the homepage for demoQA website
     When I click on the Elements button

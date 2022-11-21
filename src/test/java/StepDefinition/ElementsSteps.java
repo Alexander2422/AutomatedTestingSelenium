@@ -1,6 +1,6 @@
 package StepDefinition;
 
-import io.cucumber.java.an.E;
+
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 import pages.ElementsPage;
@@ -71,22 +71,27 @@ public class ElementsSteps {
 
     @Then("I check to see if new entry is added")
     public void iCheckToSeeIfNewEntryIsAdded() {
+        Assert.assertTrue(elementsPage.checkIfNewEntryIsAdded());
     }
 
     @When("I press on edit on the new entry and change the name")
-    public void iPressOnEditOnTheNewEntryAndChangeTheName() {
+    public void iPressOnEditOnTheNewEntryAndChangeTheName() throws InterruptedException {
+        elementsPage.webTablesEditButton();
     }
 
     @Then("I check to see if name was changed successfully")
     public void iCheckToSeeIfNameWasChangedSuccessfully() {
+        Assert.assertTrue(elementsPage.checkIfNewEntryIsEdited());
     }
 
     @When("I press on delete of the new entry")
     public void iPressOnDeleteOfTheNewEntry() {
+        elementsPage.clickWebTablesDeleteButton();
     }
 
     @Then("I check to see if last entry was removed")
-    public void iCheckToSeeIfLastEntryWasRemoved() {
+    public void iCheckToSeeIfLastEntryWasRemoved() throws InterruptedException {
+        Assert.assertFalse(elementsPage.checkIfNewEntryIsEdited());
     }
 
 

@@ -3,8 +3,11 @@ package pages;
 import org.openqa.selenium.By;
 import utils.Utilities;
 
+import java.awt.*;
+
 public class HomePage extends BasePage{
-    private By elements = By.xpath("//div[@class='header-text' and text()='Elements']");
+    private By elements = By.xpath("//div[@class='card-body']//*[text()='Elements']");
+
 
 
     public void openHomePage(){
@@ -15,7 +18,7 @@ public class HomePage extends BasePage{
     }
 
     public static class StaticLinks{
-        public static String homepageDemoQA="https://demoqa.com/elements";
+        public static String homepageDemoQA="https://demoqa.com/";
     }
 
 }
