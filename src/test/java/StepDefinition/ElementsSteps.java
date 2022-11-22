@@ -2,7 +2,7 @@ package StepDefinition;
 
 
 import io.cucumber.java.en.*;
-import org.junit.Assert;
+import org.testng.Assert;
 import pages.ElementsPage;
 import pages.HomePage;
 

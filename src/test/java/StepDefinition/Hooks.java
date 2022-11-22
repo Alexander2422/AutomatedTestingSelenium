@@ -8,7 +8,7 @@ public class Hooks extends WebDriverUtils {
 
     @Before
     public static void setup() {
-        webDriverCreation("firefox");
+        webDriverCreation("chrome");
     }
 
     @After

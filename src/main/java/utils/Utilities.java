@@ -18,7 +18,7 @@ public class Utilities extends WebDriverUtils {
     static Actions act = new Actions(driver);
     public static int duration = 5;
     String selectAll = Keys.chord(Keys.COMMAND, "a");
-    String commandZoomOut= Keys.chord(Keys.COMMAND, Keys.SUBTRACT);
+    String commandZoomOut = Keys.chord(Keys.COMMAND, Keys.SUBTRACT);
     Keys delete = Keys.DELETE;
 
 
@@ -34,7 +34,7 @@ public class Utilities extends WebDriverUtils {
         driver.findElement(elem).sendKeys(textToSend);
     }
 
-    public void waitOnElementToBeClickable(By elem, int duration) {
+    public void waitOnElementToBeClickable(By elem) {
         new WebDriverWait(driver, Duration.ofSeconds(duration)).until(ExpectedConditions.elementToBeClickable(elem));
     }
 
@@ -108,21 +108,27 @@ public class Utilities extends WebDriverUtils {
         driver.findElement(input).sendKeys(inputDate);
         clickElement(someElement);
     }
-    public void dropDownSelect(By elementLocation,String whatToSelectText){
+
+    public void dropDownSelect(By elementLocation, String whatToSelectText) {
         Select sel = new Select(driver.findElement(elementLocation));
         sel.selectByVisibleText(whatToSelectText);
     }
-    public void pressEnter(By location){
+
+    public void pressEnter(By location) {
         driver.findElement(location).sendKeys(Keys.ENTER);
     }
-    public void scrollToBottom(){
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        //Scroll down till the bottom of the page
-        js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+
+    public void scrollToBottom(By element) throws InterruptedException {
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(element));
+        Thread.sleep(500);
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(element));
+
     }
-    public void zoomOut(int howManyTimes){
-        int times= 0;
-        while(times<howManyTimes){
+
+    public void zoomOut(int howManyTimes) {
+        int times = 0;
+        while (times < howManyTimes) {
             driver.findElement(By.tagName("html")).sendKeys(Keys.chord(commandZoomOut));
             times++;
         }

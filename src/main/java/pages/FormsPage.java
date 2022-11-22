@@ -15,7 +15,7 @@ public class FormsPage extends BasePage {
     private By inputPhoneNumber = By.xpath("//input[@id='userNumber']");
     private By inputDateOfBirth = By.xpath("//input[@id='dateOfBirthInput']");
     private By submitButton = By.xpath("//button[@id='submit']");
-    private By bookStoreApp=By.xpath("//div[@class='header-text' and text()='Book Store Application']");
+    private By bookStoreApp=By.xpath("//div[@class='header-text' and text()='Interactions']");
 
     private By inputSubject = By.xpath("//input[@id='subjectsInput']");
     private By checkBoxHobbiesSports = By.xpath("//label[@class='custom-control-label' and text()='Sports']");
@@ -28,7 +28,7 @@ public class FormsPage extends BasePage {
     public String lastName = faker.name().lastName();
     public String email = faker.internet().emailAddress();
     public String mobileNumber = faker.phoneNumber().subscriberNumber(10);
-    public String dateOfBirth = "24 June 1991";
+    public String dateOfBirth = "24 June,1991";
 
     public String subject = "Maths";
     public String address = faker.address().fullAddress();
@@ -78,7 +78,9 @@ public class FormsPage extends BasePage {
         pressEnter(dropDownStateAndCity);
         sendKeys(dropDownCity, city);
         clickElement(bookStoreApp);
-        scrollToBottom();
+        scrollToBottom(submitButton);
+        waitOnElementToBeClickable(submitButton);
+        scrollToBottom(submitButton);
         clickElement(submitButton);
     }
 
@@ -86,9 +88,16 @@ public class FormsPage extends BasePage {
         boolean isCheckOk = false;
         waitOnElement(tableAll);
         if (getTextOfElement(studentNameCheck).equals(firstName + " " + lastName) && getTextOfElement(hobbiesCheck).contains(hobbies) &&getTextOfElement(studentEmailCheck).equals(email) && getTextOfElement(genderCheck).equals(gender) && getTextOfElement(mobileCheck).equals(mobileNumber)
-                && getTextOfElement(birthDayCheck).equals(dateOfBirth) && getTextOfElement(subjectCheck).equals(subject) && getTextOfElement(pictureCheck).equals(uploadedFile) && getTextOfElement(addressCheck).equals(address) && getTextOfElement(stateCheck).equals(stateAndCity)) {
+                && getTextOfElement(birthDayCheck).equals(dateOfBirth) && getTextOfElement(subjectCheck).equals(subject) && getTextOfElement(pictureCheck).equals(uploadedFile) && getTextOfElement(addressCheck).equals(address)) {
             isCheckOk = true;
+
         }
+
+        System.out.println(getTextOfElement(birthDayCheck).equals(dateOfBirth));
+        System.out.println(getTextOfElement(stateCheck).equals(stateAndCity));
+
+
+
         return isCheckOk;
     }
 }

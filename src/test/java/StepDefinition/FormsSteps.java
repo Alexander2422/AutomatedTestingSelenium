@@ -2,7 +2,7 @@ package StepDefinition;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
+import org.testng.Assert;
 import pages.FormsPage;
 
 public class FormsSteps {
@@ -24,6 +24,6 @@ public class FormsSteps {
 
     @Then("I check to see if all information is correct")
     public void iCheckToSeeIfAllInformationIsCorrect() {
-        //Assert.assertTrue(formsPage.checkElementsAfterInput());
+        Assert.assertTrue(formsPage.checkElementsAfterInput());
     }
 }
