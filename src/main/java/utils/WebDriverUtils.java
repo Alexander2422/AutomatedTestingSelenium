@@ -1,55 +1,75 @@
 package utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.chrome.*;
+import org.openqa.selenium.firefox.*;
+
+import java.util.*;
+
+import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR;
 
 public class WebDriverUtils {
-    public static WebDriver driver;
+    //private static WebDriver driver;
 
-    public static void webDriverCreation() {
+    private static ThreadLocal<WebDriver> drivers = new ThreadLocal<>();
 
-        //region BonnieGarciaDriver
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setAcceptInsecureCerts(true);
-//        chromeOptions.setCapability(UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
-//
-//
-//        WebDriverManager.chromedriver().setup();
-//        driver = new ChromeDriver(chromeOptions);
-//        driver.manage().window().maximize();
+    private static List<WebDriver> storedDrivers = new ArrayList<>();
 
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
-        firefoxOptions.setAcceptInsecureCerts(true);
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                storedDrivers.stream().forEach(WebDriver::quit);
+            }
+        });
+    }
 
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver(firefoxOptions);
-        driver.manage().window().maximize();
+    public static WebDriver getDriver() {
+        return drivers.get();
+    }
 
-        //endregion
+    public static void addDriver(WebDriver driver) {
+        storedDrivers.add(driver);
+        drivers.set(driver);
+    }
 
-        //region clearCache
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
-//
-//        String siteLink = "chrome://settings/clearBrowserData";
-//        driver.get(siteLink);
-//
-//        try {
-//            Thread.sleep(2000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        //get clear cache button
-//        WebElement clearBtn = (WebElement) js.executeScript("return document.querySelector(\"body > settings-ui\").shadowRoot.querySelector(\"#main\").shadowRoot.querySelector(\"settings-basic-page\").shadowRoot.querySelector(\"#basicPage > settings-section:nth-child(9) > settings-privacy-page\").shadowRoot.querySelector(\"settings-clear-browsing-data-dialog\").shadowRoot.querySelector(\"#clearBrowsingDataConfirm\")");
-//        //Click
-//        clearBtn.click();
-        //endregion
+    protected static void removeDriver() {
+        storedDrivers.remove(drivers.get());
+        drivers.remove();
+    }
+
+    public static void webDriverCreation(String usedDriver) {
+        if (getDriver() == null) {
+            if (usedDriver.equals("chrome")) {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setAcceptInsecureCerts(true);
+                chromeOptions.setCapability(UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+
+                WebDriverManager.chromedriver().setup();
+                //drivers.set(new ChromeDriver(chromeOptions));
+                addDriver(new ChromeDriver());
+                getDriver().manage().window().maximize();
+
+            } else if (usedDriver.equals("firefox")) {
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.setAcceptInsecureCerts(true);
+                firefoxOptions.setCapability(UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+
+                WebDriverManager.firefoxdriver().setup();
+//                driver = new FirefoxDriver(firefoxOptions);
+                addDriver(new FirefoxDriver());
+                getDriver().manage().window().maximize();
+
+            }
+        }
     }
 
     public static void webDriverTeardown() {
-        //driver.close();
-        driver.quit();
+        if (getDriver() != null) {
+            getDriver().close();
+            getDriver().quit();
+            removeDriver();
+        }
     }
 }
