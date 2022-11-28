@@ -1,7 +1,6 @@
-
 Feature: Feature to test Elements from ToolsQA
 
-
+  @Tests
   Scenario:Testing Check-Box feature
     Given I Set the homepage for demoQA website
     When I click on the Elements button

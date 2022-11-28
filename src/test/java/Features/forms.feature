@@ -1,5 +1,4 @@
 Feature: Feature to test Forms from ToolsQA
-
 @Tests
   Scenario: Testing adding inputs into Practice form
     Given I Set the homepage for demoQA website

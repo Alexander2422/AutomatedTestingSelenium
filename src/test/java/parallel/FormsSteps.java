@@ -1,14 +1,18 @@
-package StepDefinition;
+package parallel;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+
 import pages.FormsPage;
 
 public class FormsSteps {
+
     FormsPage formsPage = new FormsPage();
     @When("I click on Forms button")
     public void iClickOnFormsButton() {
+
         formsPage.clickOnForms();
     }
 

@@ -1,4 +1,4 @@
-package StepDefinition;
+package parallel;
 
 
 import io.cucumber.java.en.*;

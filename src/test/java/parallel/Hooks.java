@@ -1,4 +1,4 @@
-package StepDefinition;
+package parallel;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -9,6 +9,7 @@ public class Hooks extends WebDriverUtils {
     @Before
     public static void setup() {
         webDriverCreation("chrome");
+        //long threadNumber=Thread.currentThread().getId();
     }
 
     @After

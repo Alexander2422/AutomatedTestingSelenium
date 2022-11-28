@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Utilities extends WebDriverUtils {
 
-    static Actions act = new Actions(driver);
+    static Actions act = new Actions(getDriver());
     public static int duration = 5;
     String selectAll = Keys.chord(Keys.COMMAND, "a");
     String commandZoomOut = Keys.chord(Keys.COMMAND, Keys.SUBTRACT);
@@ -23,23 +23,26 @@ public class Utilities extends WebDriverUtils {
 
 
     public static void clickElement(By elem) {
-        driver.findElement(elem).click();
+        getDriver().findElement(elem).click();
+    }
+    public static void maximizePage(){
+        getDriver().manage().window().maximize();
     }
 
     public static void openLink(String link) {
-        driver.get(link);
+        getDriver().get(link);
     }
 
     public void sendKeys(By elem, String textToSend) {
-        driver.findElement(elem).sendKeys(textToSend);
+        getDriver().findElement(elem).sendKeys(textToSend);
     }
 
     public void waitOnElementToBeClickable(By elem) {
-        new WebDriverWait(driver, Duration.ofSeconds(duration)).until(ExpectedConditions.elementToBeClickable(elem));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(duration)).until(ExpectedConditions.elementToBeClickable(elem));
     }
 
     public static void waitOnElement(By elem) {
-        new WebDriverWait(driver, Duration.ofSeconds(duration)).until(ExpectedConditions.presenceOfElementLocated(elem));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(duration)).until(ExpectedConditions.presenceOfElementLocated(elem));
     }
 
     public int randomNumberGenerator(int range) {
@@ -48,20 +51,20 @@ public class Utilities extends WebDriverUtils {
     }
 
     public static String getTextOfElement(By elem) {
-        return driver.findElement(elem).getText();
+        return getDriver().findElement(elem).getText();
     }
 
     public static void uploadElement(By location, String locationOfFile) {
-        driver.findElement(location).sendKeys(locationOfFile);
+        getDriver().findElement(location).sendKeys(locationOfFile);
     }
 
     public static void autocompletionElement(By location, String textElement) {
-        driver.findElement(location).sendKeys(textElement);
-        driver.findElement(location).sendKeys(Keys.TAB);
+        getDriver().findElement(location).sendKeys(textElement);
+        getDriver().findElement(location).sendKeys(Keys.TAB);
     }
 
     public void selectFromDropdown(By dropdownList, String whatToSelect) {
-        WebElement dropdown = driver.findElement(dropdownList);
+        WebElement dropdown = getDriver().findElement(dropdownList);
         Select selectObject = new Select(dropdown);
         selectObject.selectByVisibleText(whatToSelect);
     }
@@ -76,51 +79,25 @@ public class Utilities extends WebDriverUtils {
         return isTrue;
     }
 
-    public void datePicker(By location, By dateTable, By dateMonth, String month, By dateYear, String year, By dateDay, String day) {
-        driver.findElement(location).click();
-        waitOnElement(dateTable);
-        //daySelect
-        List<WebElement> l = driver.findElements(dateTable);
-
-        for (int j = 0; j < l.size(); j++) {
-            String newString = l.get(j).toString();
-            //List<WebElement> l2 = driver.findElements(l.get(j));
-//            for(int k=0;k<l.size();k++){
-//                System.out.println(l.get(k));
-//            }
-
-        }
-
-//        Select seDay = new Select (driver.findElement(dateDay));
-//        seDay.selectByValue(day);
-        //monthSelect
-        Select seMonth = new Select(driver.findElement(dateMonth));
-        seMonth.selectByVisibleText(month);
-        //yearSelect
-        Select seYear = new Select(driver.findElement(dateYear));
-        seYear.selectByValue(year);
-
-    }
-
     public void datePick(By input, String inputDate, By someElement) throws InterruptedException {
-        driver.findElement(input).click();
-        driver.findElement(input).sendKeys(selectAll);
-        driver.findElement(input).sendKeys(inputDate);
+        getDriver().findElement(input).click();
+        getDriver().findElement(input).sendKeys(selectAll);
+        getDriver().findElement(input).sendKeys(inputDate);
         clickElement(someElement);
     }
 
     public void dropDownSelect(By elementLocation, String whatToSelectText) {
-        Select sel = new Select(driver.findElement(elementLocation));
+        Select sel = new Select(getDriver().findElement(elementLocation));
         sel.selectByVisibleText(whatToSelectText);
     }
 
     public void pressEnter(By location) {
-        driver.findElement(location).sendKeys(Keys.ENTER);
+        getDriver().findElement(location).sendKeys(Keys.ENTER);
     }
 
     public void scrollToBottom(By element) throws InterruptedException {
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(element));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(element));
         Thread.sleep(500);
 //        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(element));
 
@@ -129,7 +106,7 @@ public class Utilities extends WebDriverUtils {
     public void zoomOut(int howManyTimes) {
         int times = 0;
         while (times < howManyTimes) {
-            driver.findElement(By.tagName("html")).sendKeys(Keys.chord(commandZoomOut));
+            getDriver().findElement(By.tagName("html")).sendKeys(Keys.chord(commandZoomOut));
             times++;
         }
     }
